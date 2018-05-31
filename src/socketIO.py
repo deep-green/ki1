@@ -1,29 +1,23 @@
-from aiohttp import web
-import socketio
+from socketIO_client import SocketIO, LoggingNamespace
 
-sio = socketio.AsyncServer()
-app = web.Application()
-sio.attach(app)
+def on_connect():
+    print('connect')
 
-async def index(request):
-    """Serve the client-side application."""
-    with open('index.html') as f:
-        return web.Response(text=f.read(), content_type='text/html')
+def on_disconnect():
+    print('disconnect')
 
-@sio.on('connect', namespace='/chat')
-def connect(sid, environ):
-    print("connect ", sid)
+def on_reconnect():
+    print('reconnect')
 
-@sio.on('chat message', namespace='/chat')
-async def message(sid, data):
-    print("message ", data)
-    await sio.emit('reply', room=sid)
+def on_receive_response(*args):
+    print('on_aaa_response', args)
 
-@sio.on('disconnect', namespace='/chat')
-def disconnect(sid):
-    print('disconnect ', sid)
+socketIO = SocketIO('ec2-54-93-171-91.eu-central-1.compute.amazonaws.com', 5000, LoggingNamespace)
+socketIO.on('connect', on_connect)
+socketIO.on('disconnect', on_disconnect)
+socketIO.on('reconnect', on_reconnect)
 
-app.router.add_get('/', index)
-
-if __name__ == '__main__':
-    web.run_app(app)
+# Listen
+socketIO.on('receive', on_receive_response)
+socketIO.emit('Test')
+socketIO.wait(seconds=1)
