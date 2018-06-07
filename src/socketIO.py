@@ -22,7 +22,7 @@ class DeepGreenNamespace(BaseNamespace):
     def on_reconnect(self):
         print('reconnect')
 adress = '54.93.171.91'
-socketIO = SocketIO('localhost', 8008)
+socketIO = SocketIO(adress, 8008)
 deepgreen_namespace = socketIO.define(DeepGreenNamespace, '/deep-green')
 deepgreen_namespace.on('move',DeepGreenNamespace.on_makeMove)
 deepgreen_namespace.emit('receive',testdata)
