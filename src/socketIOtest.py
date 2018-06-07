@@ -9,7 +9,9 @@ testdata = {
   'ID_game': '2',
   'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'  
 }
+
 sio = socketio.Server()
+
 app = Flask(__name__)
 
 @app.route('/')
