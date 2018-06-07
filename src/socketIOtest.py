@@ -3,6 +3,12 @@ import eventlet
 import eventlet.wsgi
 from flask import Flask, render_template
 
+
+testdata = {
+  'FEN': 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
+  'ID_game': '2',
+  'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'  
+}
 sio = socketio.Server()
 app = Flask(__name__)
 
@@ -13,14 +19,12 @@ def index():
 
 @sio.on('connect', namespace='/deep-green')
 def connect(sid, environ):
-    print("connect ", sid)
-    sio.emit('aaa','Test',namespace='/deep-green',room=sid)
-    
+    print("connect ", sid)    
 
-@sio.on('chat message', namespace='/deep-green')
+@sio.on('receive', namespace='/deep-green')
 def message(sid, data):
-    print("message ", data)
-    sio.emit('aaa',{'data': data},namespace='/deep-green', room=sid)
+    print("receive", data)
+    sio.emit('makeMove',testdata,namespace='/deep-green', room=sid)
 
 @sio.on('disconnect', namespace='/deep-green')
 def disconnect(sid):
