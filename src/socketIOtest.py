@@ -6,7 +6,7 @@ from flask import Flask, render_template
 sio = socketio.Server()
 app = Flask(__name__)
 
-@app.route('/deep-green')
+@app.route('/')
 def index():
     """Serve the client-side application."""
     return render_template('index.html')
@@ -14,12 +14,13 @@ def index():
 @sio.on('connect', namespace='/deep-green')
 def connect(sid, environ):
     print("connect ", sid)
-    sio.emit('aaa','Test',room=sid)
+    sio.emit('aaa','Test',namespace='/deep-green',room=sid)
+    
 
 @sio.on('chat message', namespace='/deep-green')
 def message(sid, data):
     print("message ", data)
-    sio.emit('reply', room=sid)
+    sio.emit('aaa',{'data': data},namespace='/deep-green', room=sid)
 
 @sio.on('disconnect', namespace='/deep-green')
 def disconnect(sid):
