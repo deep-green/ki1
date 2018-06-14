@@ -2,9 +2,6 @@
 
 ## Benennung der Input-Knoten
 
-
-#### 2.4.2 Bilderkennung
-
 | **Figur**| **Weiß**|   **Schwarz**   |
 |:-----|:----------:|:-------------------
 | Bauer  | 0,083 | 0,166 |
