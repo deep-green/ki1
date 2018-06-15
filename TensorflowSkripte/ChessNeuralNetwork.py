@@ -57,15 +57,15 @@ FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 listvar = parseFEN.parse(FEN)
 inputlist = [listvar]
 
-
 # Construct model
 logits = neural_net(X)
 with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())   
-    #test = sess.run(logits, feed_dict={X: arrr, Y: prrr})
     test = sess.run(logits, feed_dict={X: inputlist, Y: prrr})
     tesst = test[0]
+    maxval = max(tesst)
+    minval = min(tesst)
     for f in tesst:
-        print(f)
+        print((f-minval)/(maxval-minval))
 
     
