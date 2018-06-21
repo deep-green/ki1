@@ -54,33 +54,38 @@ for y in range(4032):
 prrr = [prr]
 
 #FEN
-FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
-listvar = parseFEN.parse(FEN)
-inputlist = [listvar]
+#FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+#listvar = parseFEN.parse(FEN)
+#inputlist = [listvar]
 
 # Construct model
 logits = neural_net(X)
-test = []
-with tf.Session() as sess:
-    sess.run(tf.global_variables_initializer())   
-    test = sess.run(logits, feed_dict={X: inputlist, Y: prrr})
-tesst = test[0]
-tesst = tesst.tolist()
-maxval = max(tesst)
-minval = min(tesst)
-for x in range(0,len(tesst)):
-    y = (tesst[x]-minval)/(maxval-minval)
-    tesst[x] = y
-maxval = max(tesst)
-minval = min(tesst)    
-turns = Moves.getMoves()
-   # for f in tesst:
-     #   print((f-minval)/(maxval-minval))
-for x in tesst:
-    ind = tesst.index(maxval)
-    print(str(tesst[ind]) + ": " + turns[ind])
-    tesst[ind] = -1
+
+
+def Neural_Networke(parsedFEN, possibleMoves):
+    inputlist = [parsedFEN]
+    test = []
+    moves = possibleMoves
+    with tf.Session() as sess:
+        sess.run(tf.global_variables_initializer())   
+        test = sess.run(logits, feed_dict={X: inputlist, Y: prrr})
+    tesst = test[0]
+    tesst = tesst.tolist()
     maxval = max(tesst)
+    minval = min(tesst)
+    for x in range(0,len(tesst)):
+        y = (tesst[x]-minval)/(maxval-minval)
+        tesst[x] = y
+    maxval = max(tesst)
+    minval = min(tesst)    
+    turns = Moves.getMoves()
+    for x in tesst:
+        ind = tesst.index(maxval)
+        print(str(tesst[ind]) + ": " + turns[ind])
+        if(turns[ind] in moves):
+            return turns[ind]
+        tesst[ind] = -1
+        maxval = max(tesst)
     
 
     
