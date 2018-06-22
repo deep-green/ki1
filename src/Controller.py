@@ -2,6 +2,7 @@ import json
 import sys
 sys.path.insert(0,'..')
 sys.path.insert(0,'../TensorflowSkripte')
+sys.path.append("../TensorflowSkripte")
 import TensorflowSkripte.NNController as NNController
 import parseFEN
 
