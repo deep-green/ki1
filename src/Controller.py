@@ -5,7 +5,7 @@ sys.path.insert(0,'..')
 sys.path.insert(0,'../TensorflowSkripte')
 sys.path.append("../TensorflowSkripte")
 imp.find_module('NNController')
-import TensorflowSkripte.NNController as NNController
+import NNController 
 import parseFEN
 
 
