@@ -60,15 +60,19 @@ prrr = [prr]
 
 # Construct model
 logits = neural_net(X)
-
-
+ses = None 
+def initi():    
+    global ses
+    ses = tf.Session()
+    writer = tf.summary.FileWriter("output",ses.graph)
+    ses.run(tf.global_variables_initializer())
+    writer.close
+    
 def Neural_Networke(parsedFEN, possibleMoves):
     inputlist = [parsedFEN]
     test = []
-    moves = possibleMoves
-    with tf.Session() as sess:
-        sess.run(tf.global_variables_initializer())   
-        test = sess.run(logits, feed_dict={X: inputlist, Y: prrr})
+    moves = possibleMoves  
+    test = ses.run(logits, feed_dict={X: inputlist, Y: prrr})
     tesst = test[0]
     tesst = tesst.tolist()
     maxval = max(tesst)
@@ -81,8 +85,9 @@ def Neural_Networke(parsedFEN, possibleMoves):
     turns = Moves.getMoves()
     for x in tesst:
         ind = tesst.index(maxval)
-        print(str(tesst[ind]) + ": " + turns[ind])
+        #print(str(tesst[ind]) + ": " + turns[ind])
         if(turns[ind] in moves):
+            print(str(tesst[ind]) + ": " + turns[ind])
             return turns[ind]
         tesst[ind] = -1
         maxval = max(tesst)
