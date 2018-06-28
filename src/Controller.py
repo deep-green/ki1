@@ -11,15 +11,7 @@ import parseFEN
 
 game_id = -1
 
-testdata = {
-  "FEN": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
-  "ID_game": "2",
-  "color": "false",
-  "turns": [
-    "e2e4",
-    "c2c4"
-  ]
-}
+
 
 def init(receive):
     jsonstr = json.dumps(receive)
@@ -31,4 +23,3 @@ def init(receive):
            "ID_game": game_id}
     return ret
 
-init(testdata)

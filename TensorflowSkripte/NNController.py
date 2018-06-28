@@ -6,7 +6,5 @@ def calc(parsedFEN, possibleMoves):
     #print("NNController: ", possibleMoves)
     #ChessNeuralNetwork.initi()
     move = ChessNeuralNetwork.Neural_Networke(parsedFEN,possibleMoves)
-    move2 = ChessNeuralNetwork.Neural_Networke(parsedFEN,possibleMoves)
     print(move)
-    print(move2)
     return move

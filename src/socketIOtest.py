@@ -21,20 +21,20 @@ def index():
     return render_template('index.html')
 
 
-@sio.on('connect', namespace='/deep-green')
+@sio.on('connect')
 def connect(sid, environ):
     print("connect ", sid)
 
 
 # data[1] => to change in future
-@sio.on('receive', namespace='/deep-green')
+@sio.on('receive')
 def message(sid, data):
     print("receive", data)
     ret = Controller.init(data)
-    sio.emit('makeMove', ret, namespace='/deep-green', room=sid)
+    sio.emit('makeMove', ret, room=sid)
 
 
-@sio.on('disconnect', namespace='/deep-green')
+@sio.on('disconnect')
 def disconnect(sid):
     print('disconnect ', sid)
 
