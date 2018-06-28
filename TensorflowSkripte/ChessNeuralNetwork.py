@@ -53,10 +53,9 @@ for y in range(4032):
     prr.append(0)
 prrr = [prr]
 
-#FEN
-#FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
-#listvar = parseFEN.parse(FEN)
-#inputlist = [listvar]
+
+#Init Saver
+saver = tf.train.Saver()
 
 # Construct model
 logits = neural_net(X)
@@ -66,9 +65,13 @@ def initi():
     ses = tf.Session()
     writer = tf.summary.FileWriter("output",ses.graph)
     ses.run(tf.global_variables_initializer())
+    save_path = saver.save(ses, "/tmp/model.ckpt")
+    print("Model saved in path: %s" % save_path)
     writer.close
     
 def Neural_Networke(parsedFEN, possibleMoves):
+    ses = tf.Session()
+    saver.restore(ses, "/tmp/model.ckpt")
     inputlist = [parsedFEN]
     test = []
     moves = possibleMoves  
@@ -91,6 +94,9 @@ def Neural_Networke(parsedFEN, possibleMoves):
             return turns[ind]
         tesst[ind] = -1
         maxval = max(tesst)
+    save_path = saver.save(ses, "/tmp/model.ckpt")
+    print("Model saved in path2: %s" % save_path)
+    
     
 
     
