@@ -74,8 +74,8 @@ def initi():
     
 def Neural_Networke(parsedFEN, possibleMoves):
     ses = tf.Session()
-    #ses.run(tf.global_variables_initializer())
-    saver.restore(ses, "/tmp/model.ckpt")
+    ses.run(tf.global_variables_initializer())
+    #saver.restore(ses, "/tmp/model.ckpt")
     inputlist = [parsedFEN]
     test = []
     moves = possibleMoves  
