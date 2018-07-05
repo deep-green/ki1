@@ -6,6 +6,7 @@ inverted = False
 
 # parse FEN into Array as specified in README.md
 def parse(fen):
+    global inverted
     fenlist = fen.split(" ")
     parsedlist = []
     position = fenlist[0]
@@ -43,10 +44,8 @@ def parse(fen):
 
     if (fenlist[1] == 'w'):
         parsedlist = invertFEN(parsedlist)
-        global inverted
         inverted = True
     else:
-        global inverted
         inverted = False
     return parsedlist
 
