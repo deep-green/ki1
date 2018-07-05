@@ -1,7 +1,6 @@
 import socketio
 import eventlet
 import eventlet.wsgi
-from aiohttp import web
 from flask import Flask, render_template
 import Controller
 
