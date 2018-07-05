@@ -9,10 +9,6 @@ def parse(fen):
     fenlist = fen.split(" ")
     parsedlist = []
     position = fenlist[0]
-    if (fenlist[1] == 'w'):
-        position = invertPosition(position)
-        global inverted
-        inverted = True
     for s in position:
         if (s in ('1', '2', '3', '4', '5', '6', '7', '8')):
             i = int(s)
@@ -45,16 +41,69 @@ def parse(fen):
             elif (s == 'K'):
                 parsedlist.append(0.913)
 
+    if (fenlist[1] == 'w'):
+        parsedlist = invertFEN(parsedlist)
+        global inverted
+        inverted = True
+    else:
+        global inverted
+        inverted = False
     return parsedlist
 
 
-def invertPosition(fen):
-    fenlist = fen.split(" ")
-    invertedPosition = ""
-    for s in fenlist[0]:
-        if (s.islower()):
-            s = s.upper()
-        elif (s.isupper()):
-            s = s.lower()
-        invertedPosition += s
-    return invertedPosition
+def invertFEN(parsedlist):
+    invertedlist = parsedlist.reverse()
+    for i in range(0, len(invertedlist)):
+        if (invertedlist[i] == 0.083):
+            invertedlist[i] = 0.166
+        elif (invertedlist[i] == 0.249):
+            invertedlist[i] = 0.332
+        elif (invertedlist[i] == 0.415):
+            invertedlist[i] = 0.498
+        elif (invertedlist[i] == 0.581):
+            invertedlist[i] = 0.664
+        elif (invertedlist[i] == 0.747):
+            invertedlist[i] = 0.83
+        elif (invertedlist[i] == 0.913):
+            invertedlist[i] = 1
+
+        elif (invertedlist[i] == 0.166):
+            invertedlist[i] = 0.083
+        elif (invertedlist[i] == 0.332):
+            invertedlist[i] = 0.249
+        elif (invertedlist[i] == 0.498):
+            invertedlist[i] = 0.415
+        elif (invertedlist[i] == 0.664):
+            invertedlist[i] = 0.581
+        elif (invertedlist[i] == 0.83):
+            invertedlist[i] = 0.747
+        elif (invertedlist[i] == 1):
+            invertedlist[i] = 0.913
+    return invertedlist
+
+def invertMove(move):
+    templist = [8, 7, 6, 5, 4, 3, 2, 1]
+    n1 = templist[int(move[1])-1]
+    n2 = templist[int(move[3])-1]
+    l1 = __invertstr(move[0])
+    l2 = __invertstr(move[2])
+    return l1 + str(n1) + l2 + str(n2)
+
+def __invertstr(l):
+    if (l == "a"):
+        l = "h"
+    elif (l == "b"):
+        l = "g"
+    elif (l == "c"):
+        l = "f"
+    elif (l == "d"):
+        l = "e"
+    elif (l == "e"):
+        l = "d"
+    elif (l == "f"):
+        l = "c"
+    elif (l == "g"):
+        l = "b"
+    elif (l == "h"):
+        l = "a"
+    return l
