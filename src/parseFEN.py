@@ -1,4 +1,4 @@
-from Tools.i18n.pygettext import safe_eval
+
 
 # ai always plays the black side
 inverted = False
