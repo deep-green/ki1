@@ -37,10 +37,13 @@ biases = {
 def neural_net(x):
     # Hidden fully connected layer with 500 neurons
     layer_1 = tf.add(tf.matmul(x, weights['h1']), biases['b1'])
+    tf.nn.relu(layer_1)
     # Hidden fully connected layer with 500 neurons
     layer_2 = tf.add(tf.matmul(layer_1, weights['h2']), biases['b2'])
+    tf.nn.relu(layer_2)
     # Hidden fully connected layer with 500 neurons
     layer_3 = tf.add(tf.matmul(layer_2, weights['h3']), biases['b3'])
+    tf.nn.relu(layer_3)
     # Output fully connected layer with a neuron for each class
     out_layer = tf.matmul(layer_3, weights['out']) + biases['out']
     return out_layer
@@ -98,6 +101,22 @@ def Neural_Networke(parsedFEN, possibleMoves):
     save_path = saver.save(ses, "/tmp/model.ckpt")
     print("Model saved in path2: %s" % save_path)
     
+def train_neural_network(x):
+    prediction = neural_net(x)
+    cost = tf.reduce_mean( tf.nn.softmax_cross_entropy_with_logits(logits=prediction, labels=Y) )
+    optimizer = tf.train.AdamOptimizer().minimize(cost)
+    hm_epochs = 10
+    ses.run(tf.global_variables_initializer())
+    for epoch in range(hm_epochs):
+        epoch_loss = 0
+        for _ in range(int(mnist.train.num_examples/batch_size)):
+             epoch_x, epoch_y = mnist.train.next_batch(batch_size)
+             _, c = ses.run([optimizer, cost], feed_dict={X: epoch_x, Y: epoch_y})
+             epoch_loss += c
+        print('Epoch', epoch, 'completed out of',hm_epochs,'loss:',epoch_loss)
+        correct = tf.equal(tf.argmax(prediction, 1), tf.argmax(Y, 1))
+        accuracy = tf.reduce_mean(tf.cast(correct, 'float'))
+        print('Accuracy:',accuracy.eval({x:mnist.test.images, y:mnist.test.labels})) 
     
 
     
