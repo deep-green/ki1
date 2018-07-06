@@ -1,5 +1,6 @@
 import chess
 import chess.pgn
+import chess.uci
 
 board = chess.Board()
 pgn = open("Kasparov.pgn")
@@ -10,5 +11,6 @@ while not node.is_end():
     next_node = node.variations[0]
     print(board.fen())
     board.push_san(node.board().san(next_node.move))
-    print(node.board().san(next_node.move))
+    print(board.uci(next_node.move,chess960=None))
+    #print(node.board().san(next_node.move))
     node = next_node
