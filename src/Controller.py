@@ -18,7 +18,16 @@ def init(receive):
     jsonobj = json.loads(jsonstr)
     global game_id
     game_id = jsonobj["ID_game"]
-    retMove = NNController.calc(parseFEN.parse(jsonobj["FEN"]),jsonobj["turns"])
+    parsedfen = parseFEN.parse(jsonobj["FEN"])
+    moves = jsonobj["turns"]
+    if (parseFEN.inverted):
+        moves2 = []
+        for m in moves:
+            moves2.append(parseFEN.invertMove(m))
+        moves = moves2
+    retMove = NNController.calc(parsedfen ,moves)
+    if (parseFEN.inverted):
+        retMove = parseFEN.invertMove(retMove)
     ret = {"Move": retMove,
            "ID_game": game_id}
     return ret

@@ -1,7 +1,6 @@
 import socketio
 import eventlet
 import eventlet.wsgi
-from aiohttp import web
 from flask import Flask, render_template
 import Controller
 
@@ -45,4 +44,4 @@ if __name__ == '__main__':
     app = socketio.Middleware(sio, app)
 
     # deploy as an eventlet WSGI server
-    eventlet.wsgi.server(eventlet.listen(('localhost', 8008)), app)
+    eventlet.wsgi.server(eventlet.listen(('', 8008)), app)
