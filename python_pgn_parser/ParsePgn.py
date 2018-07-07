@@ -1,16 +1,49 @@
-import chess
 import chess.pgn
 import chess.uci
+from src import parseFEN
+from TensorflowSkripte import Moves
+
+pathwithoutend = ""
+
+def writeToFile(fen, move):
+    fen = str(fen)
+    parsedfen = parseFEN.parse(fen)
+    if (parseFEN.inverted):
+        move = parseFEN.invertMove(move)
+    allmoves = Moves.getMoves()
+    parsedmove = []
+    for m in allmoves:
+        if (move == m):
+            parsedmove.append(1)
+        else:
+            parsedmove.append(0)
+    fenwrite = ""
+    for f in parsedfen:
+        fenwrite += str(f)+","
+    movewrite = ""
+    for p in parsedmove:
+        movewrite += str(p)+","
+
+    with open(pathwithoutend + ".txt", "a") as myfile:
+        myfile.write(fenwrite + "|" + movewrite + "\n")
+    #print(str(parsedmove))
+    #print(list(str(parsedmove)))
+    #print(len(parsedmove))
+    #print(parsedmove)
+    #print(len(Moves.getMoves()))
+    #print(parsedfen)
 
 board = chess.Board()
-pgn = open("Kasparov.pgn")
+pgn = open(pathwithoutend + ".pgn")
 first_game = chess.pgn.read_game(pgn)
 moves = first_game.main_line()
 node = first_game
 while not node.is_end():
     next_node = node.variations[0]
-    print(board.fen())
+    fen = board.fen()
     board.push_san(node.board().san(next_node.move))
-    print(board.uci(next_node.move,chess960=None))
+    move = board.uci(next_node.move,chess960=None)
     #print(node.board().san(next_node.move))
     node = next_node
+    writeToFile(fen, move)
+

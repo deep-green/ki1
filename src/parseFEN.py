@@ -51,7 +51,7 @@ def parse(fen):
 
 
 def invertFEN(parsedlist):
-    invertedlist = parsedlist.reverse()
+    invertedlist = list(reversed(parsedlist))
     for i in range(0, len(invertedlist)):
         if (invertedlist[i] == 0.083):
             invertedlist[i] = 0.166
