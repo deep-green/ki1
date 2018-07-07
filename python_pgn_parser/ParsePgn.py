@@ -26,12 +26,6 @@ def writeToFile(fen, move):
 
     with open(pathwithoutend + ".txt", "a") as myfile:
         myfile.write(fenwrite + "|" + movewrite + "\n")
-    #print(str(parsedmove))
-    #print(list(str(parsedmove)))
-    #print(len(parsedmove))
-    #print(parsedmove)
-    #print(len(Moves.getMoves()))
-    #print(parsedfen)
 
 board = chess.Board()
 pgn = open(pathwithoutend + ".pgn")
@@ -43,7 +37,6 @@ while not node.is_end():
     fen = board.fen()
     board.push_san(node.board().san(next_node.move))
     move = board.uci(next_node.move,chess960=None)
-    #print(node.board().san(next_node.move))
     node = next_node
     writeToFile(fen, move)
 
