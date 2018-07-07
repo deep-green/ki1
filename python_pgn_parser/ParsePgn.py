@@ -2,8 +2,12 @@ import chess.pgn
 import chess.uci
 from src import parseFEN
 from TensorflowSkripte import Moves
+import time
 
-pathwithoutend = ""
+t1 = time.time()
+
+pathwithoutend = "pgnfiles/Kasparov"
+#pathwithoutend = "pgnfiles/GarryKasparov"
 
 def writeToFile(fen, move):
     fen = str(fen)
@@ -27,16 +31,26 @@ def writeToFile(fen, move):
     with open(pathwithoutend + ".txt", "a") as myfile:
         myfile.write(fenwrite + "|" + movewrite + "\n")
 
+count = 0
 board = chess.Board()
 pgn = open(pathwithoutend + ".pgn")
 first_game = chess.pgn.read_game(pgn)
-moves = first_game.main_line()
-node = first_game
-while not node.is_end():
-    next_node = node.variations[0]
-    fen = board.fen()
-    board.push_san(node.board().san(next_node.move))
-    move = board.uci(next_node.move,chess960=None)
-    node = next_node
-    writeToFile(fen, move)
+while first_game != None:
+    count +=1
+    board.reset()
+    moves = first_game.main_line()
+    node = first_game
+    while not node.is_end():
+        next_node = node.variations[0]
+        fen = board.fen()
+        board.push_san(node.board().san(next_node.move))
+        move = board.uci(next_node.move,chess960=None)
+        node = next_node
+        writeToFile(fen, move)
+    first_game = chess.pgn.read_game(pgn)
+
+t2 = time.time()
+
+print(count)
+print("The operation took: " + str(t2 -t1) + " seconds")
 
