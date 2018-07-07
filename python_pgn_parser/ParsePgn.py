@@ -1,12 +1,16 @@
 import chess.pgn
 import chess.uci
-from src import parseFEN
-from TensorflowSkripte import Moves
+import sys
+#from src import parseFEN
+#from TensorflowSkripte import Moves
+import parseFEN
+import Moves
 import time
 
 t1 = time.time()
 
-pathwithoutend = "pgnfiles/Kasparov"
+#pathwithoutend = "pgnfiles/Kasparov"
+pathwithoutend = "pgnfiles/A02"
 #pathwithoutend = "pgnfiles/GarryKasparov"
 
 def writeToFile(fen, move):
