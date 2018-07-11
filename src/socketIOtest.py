@@ -31,9 +31,7 @@ def connect(sid, environ):
 # data[1] => to change in future
 @sio.on('receive')
 def message(sid, data):
-    print("receive", data)
     ret = Controller.init(data)
-    print("Return", ret)
     sio.emit('makeMove', ret, room=sid)
 
 
