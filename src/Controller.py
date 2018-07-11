@@ -7,6 +7,7 @@ sys.path.append("../TensorflowSkripte")
 imp.find_module('NNController')
 import NNController 
 import parseFEN
+import chess
 
 
 game_id = -1
@@ -18,7 +19,8 @@ def init(receive):
     jsonobj = json.loads(jsonstr)
     global game_id
     game_id = jsonobj["ID_game"]
-    parsedfen = parseFEN.parse(jsonobj["FEN"])
+    fen = jsonobj["FEN"]
+    parsedfen = parseFEN.parse(fen)
     moves = jsonobj["turns"]
     if (parseFEN.inverted):
         moves2 = []
@@ -28,7 +30,14 @@ def init(receive):
     retMove = NNController.calc(parsedfen ,moves)
     if (parseFEN.inverted):
         retMove = parseFEN.invertMove(retMove)
-    ret = {"Move": retMove,
+
+    board = chess.Board(fen)
+    chessmove = chess.Move.from_uci(retMove)
+    board.push(chessmove)
+
+    ret = {"FEN": board.fen(),
            "ID_game": game_id}
+    #ret = {"Move": retMove,
+    #       "ID_game": game_id}
     return ret
 

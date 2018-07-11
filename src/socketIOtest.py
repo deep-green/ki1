@@ -31,21 +31,10 @@ def connect(sid, environ):
 # data[1] => to change in future
 @sio.on('receive')
 def message(sid, data):
-    jsonstr = json.dumps(data)
-    jsonobj = json.loads(jsonstr)
-    FEN = jsonobj["FEN"]
-    board = chess.Board(FEN)
     print("receive", data)
     ret = Controller.init(data)
-    jsonstr1 = json.dumps(ret)
-    jsonobj1 = json.loads(jsonstr1)
-    move = chess.Move.from_uci(jsonobj1["Move"])
-    board.push(move)
-    retFEN = board.fen()
-    retVal = {"FEN": retFEN,
-           "ID_game": jsonobj1["ID_game"]}
-    print(retVal)
-    sio.emit('makeMove', retVal, room=sid)
+    print("Return", ret)
+    sio.emit('makeMove', ret, room=sid)
 
 
 @sio.on('disconnect')
