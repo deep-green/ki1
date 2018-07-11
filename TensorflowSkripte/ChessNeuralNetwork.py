@@ -99,8 +99,6 @@ def Neural_Networke(parsedFEN, possibleMoves):
             return turns[ind]
         tesst[ind] = -1
         maxval = max(tesst)
-    #save_path = saver.save(ses, "/tmp/model.ckpt")
-    print("Model saved in path2: %s" % save_path)
     
 
 def readpgn():
