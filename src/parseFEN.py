@@ -81,7 +81,6 @@ def invertFEN(parsedlist):
     return invertedlist
 
 def invertMove(move):
-    print(move)
     templist = [8, 7, 6, 5, 4, 3, 2, 1]
     n1 = templist[int(move[1])-1]
     n2 = templist[int(move[3])-1]
