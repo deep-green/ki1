@@ -95,7 +95,7 @@ def Neural_Networke(parsedFEN, possibleMoves):
         ind = tesst.index(maxval)
         #print(str(tesst[ind]) + ": " + turns[ind])
         if(turns[ind] in moves):
-            print(str(tesst[ind]) + ": " + turns[ind])
+            #print(str(tesst[ind]) + ": " + turns[ind])
             return turns[ind]
         tesst[ind] = -1
         maxval = max(tesst)
