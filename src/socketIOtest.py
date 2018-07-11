@@ -3,6 +3,8 @@ import eventlet
 import eventlet.wsgi
 from flask import Flask, render_template
 import Controller
+import json
+import chess
 
 testdata = {
     'FEN': 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
@@ -29,9 +31,21 @@ def connect(sid, environ):
 # data[1] => to change in future
 @sio.on('receive')
 def message(sid, data):
+    jsonstr = json.dumps(data)
+    jsonobj = json.loads(jsonstr)
+    FEN = jsonobj["FEN"]
+    board = chess.Board(FEN)
     print("receive", data)
     ret = Controller.init(data)
-    sio.emit('makeMove', ret, room=sid)
+    jsonstr1 = json.dumps(ret)
+    jsonobj1 = json.loads(jsonstr1)
+    move = chess.Move.from_uci(jsonobj1["Move"])
+    board.push(move)
+    retFEN = board.fen()
+    retVal = {"FEN": retFEN,
+           "ID_game": jsonobj1["ID_game"]}
+    print(retVal)
+    sio.emit('makeMove', retVal, room=sid)
 
 
 @sio.on('disconnect')
@@ -44,4 +58,4 @@ if __name__ == '__main__':
     app = socketio.Middleware(sio, app)
 
     # deploy as an eventlet WSGI server
-    eventlet.wsgi.server(eventlet.listen(('', 8008)), app)
+    eventlet.wsgi.server(eventlet.listen(('localhost', 8008)), app)
